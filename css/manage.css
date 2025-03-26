@@ -1,0 +1,85 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fdf1db;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #ff6600;
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Form Label Styles */
+.form-label {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Form Control Styles */
+.form-control {
+    font-size: 1.1rem;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-control:focus {
+    border-color: #ff6600;
+    box-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #ff6600;
+    border: none;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #e65c00;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.table th {
+    background-color: #ff6600;
+    color: white;
+}

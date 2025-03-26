@@ -1,0 +1,73 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fdf1db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    max-width: 600px; /* Set max width for the form */
+    width: 100%;
+}
+
+/* Card Styles */
+.card {
+    width: 100%;
+    max-width: 100%;
+    padding: 40px; /* Increase padding to make it bigger */
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    color: #ff6600; /* Orange color for the heading */
+}
+
+/* Form Label Styles */
+.form-label {
+    font-size: 1.1rem;
+    color: #333; /* Dark gray for labels */
+}
+
+/* Form Control Styles */
+.form-control {
+    font-size: 1.1rem;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-control:focus {
+    border-color: #ff6600; /* Orange border on focus */
+    box-shadow: 0 0 5px rgba(255, 102, 0, 0.5); /* Orange glow */
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #ff6600; /* Orange background */
+    border: none;
+    font-size: 1.2rem; /* Increase button size */
+    padding: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #e65c00; /* Darker orange on hover */
+}
+
+/* Select Dropdown Styles */
+.form-select {
+    font-size: 1.1rem;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-select:focus {
+    border-color: #ff6600; /* Orange border on focus */
+    box-shadow: 0 0 5px rgba(255, 102, 0, 0.5); /* Orange glow */
+}

@@ -1,0 +1,135 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fdf1db;
+}
+
+/* Custom Colors */
+.bg-orange {
+    background-color: #ff6600;
+}
+
+.text-orange {
+    color: #ff6600;
+}
+
+.btn-orange {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: #e65c00;
+}
+
+/* Header Styles */
+header {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 1.5rem;
+    color: #ff6600;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Navbar Links */
+.navbar-nav {
+    align-items: center;
+}
+
+.nav-link {
+    color: #333;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #ff6600;
+}
+
+/* Dropdown Menu for Small Screens */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        z-index: 1000;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        gap: 10px !important;
+    }
+
+    .navbar-nav .btn-orange {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Hero Section */
+.hero {
+    background: url("pattern-bg.png") center/cover no-repeat;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Offer Section */
+.offer {
+    background-color: #fdf1db;
+}
+
+.offer-box {
+    background-color: black;
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.offer-title {
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.offer h2 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Vegan Section */
+.vegan {
+    background-color: #ff6600;
+    color: white;
+}
+
+.vegan img {
+    border-radius: 10px;
+}
+
+.vegan h2 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.vegan p {
+    font-size: 1.2rem;
+}
+/* Ensure navbar links are aligned properly on large screens */
+@media (min-width: 992px) {
+    .navbar-nav {
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+}

@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #5a2d12;
+    background-image: url('https://www.transparenttextures.com/patterns/basket-weave.png');
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #ff6600;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50%;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.logout-btn {
+    background-color: #ff6600;
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+.title {
+    background-color: #ff6600;
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 30px;
+    font-size: 1.8rem;
+    margin-top: 20px;
+}
+
+/* Payment Section */
+.payment-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+/* Payment Box */
+.payment-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 55%;
+    text-align: left;
+}
+
+.payment-box h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.payment-icons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.payment-icons img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+}
+
+label {
+    font-size: 1.1rem;
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+}
+
+.save-account {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.save-account input {
+    margin-right: 10px;
+}
+
+/* Amount Box */
+.amount-box {
+    background-color: #ff6600;
+    padding: 20px;
+    border-radius: 10px;
+    width: 35%;
+    text-align: center;
+}
+
+.amount-box h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.amount-box p {
+    font-size: 1.1rem;
+}
+
+.amount-box span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Pay Button */
+.pay-btn {
+    background-color: #ff6600;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    border-radius: 20px;
+    margin-top: 30px;
+    border: none;
+    cursor: pointer;
+}
+.food-items {
+    margin-top: 20px;
+}
+
+.food-items h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.food-items ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.food-items ul li {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .payment-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .payment-box,
+    .amount-box {
+        width: 90%;
+        text-align: center;
+    }
+
+    .payment-box {
+        padding: 15px;
+    }
+
+    .payment-icons {
+        justify-content: center;
+    }
+
+    .payment-box label {
+        text-align: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        padding: 8px 20px;
+    }
+
+    .payment-box h3 {
+        font-size: 1.2rem;
+    }
+
+    .payment-icons img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .amount-box {
+        padding: 15px;
+    }
+
+    .pay-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.2rem;
+        padding: 8px 15px;
+    }
+
+    .title {
+        font-size: 1.3rem;
+    }
+
+    .payment-icons img {
+        width: 45px;
+        height: 45px;
+    }
+
+    input[type="text"] {
+        font-size: 0.9rem;
+    }
+
+    .pay-btn {
+        font-size: 1rem;
+        padding: 8px 18px;
+    }
+}

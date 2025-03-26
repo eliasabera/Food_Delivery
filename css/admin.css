@@ -1,0 +1,73 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fdf1db;
+}
+
+/* Header Styles */
+.bg-orange {
+    background-color: #ff6600;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    height: 100vh;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.nav-link.active {
+    background-color: #ff6600;
+    color: white;
+}
+
+.nav-link:hover {
+    background-color: #ff6600;
+    color: white;
+}
+
+/* Main Content Styles */
+.content {
+    padding: 20px;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.text-orange {
+    color: #ff6600;
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        height: auto;
+    }
+
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

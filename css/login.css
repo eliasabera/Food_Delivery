@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fdf1db;
+  background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png"); /* Textured background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login {
+  width: 100%;
+  max-width: 50rem;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  text-align: left;
+  position: relative;
+}
+
+h3 {
+  font-size: 3vw; /* Responsive font size */
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Two columns: labels and inputs */
+  grid-gap: 1.5rem; /* Space between columns and rows */
+}
+
+.form-group {
+  display: contents; /* To make both label and input take respective places */
+}
+
+label {
+  font-size: 1.5rem;
+  color: #8b5e34;
+  text-align: right;
+  padding-right: 1rem; /* Aligns label close to the input */
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #f3d19e;
+  background-color: #f3d19e;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+
+button {
+  grid-column: span 2; /* Span the button across both columns */
+  padding: 1rem 3rem;
+  background-color: #ff6600;
+  color: white;
+  font-size: 1.5vw; /* Responsive button font size */
+  text-transform: capitalize;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #e65c00;
+}
+
+p {
+  grid-column: span 2; /* Span the paragraph across both columns */
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #8b5e34;
+  text-align: center;
+  width: 100%;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 250px;
+  height: 150px;
+  background-color: #ff6600;
+  border-top-left-radius: 100px;
+  clip-path: ellipse(80% 60% at 100% 100%);
+}
+
+.circle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #ff6600;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Arial", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  h3 {
+    font-size: 6vw; /* Increase font size for smaller screens */
+  }
+  .login {
+    padding: 1.5rem;
+  }
+
+  .form {
+    grid-template-columns: 1fr; /* Make it single-column on smaller screens */
+    grid-gap: 1rem; /* Reduce space between fields */
+  }
+
+  label {
+    text-align: left;
+    padding-right: 0;
+    margin-bottom: 0.5rem; /* Add some margin to the label */
+  }
+
+  input {
+    margin-bottom: 1rem; /* Add space between input fields */
+  }
+
+  button {
+    padding: 1rem 2.5rem;
+    font-size: 2vw; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  h3 {
+    font-size: 7vw; /* Further increase heading size for very small screens */
+  }
+
+  .login {
+    padding: 1rem;
+  }
+
+  button {
+    padding: 1rem 2rem;
+    font-size: 3vw; /* Adjust button size for very small screens */
+  }
+
+  .form {
+    grid-gap: 0.8rem; /* Reduce space further on very small screens */
+  }
+
+  label {
+    margin-bottom: 0.5rem; /* Ensure proper spacing on very small screens */
+  }
+
+  input {
+    margin-bottom: 1rem; /* Ensure proper spacing on very small screens */
+  }
+}
