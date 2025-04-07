@@ -1,0 +1,90 @@
+/* Rating Stars */
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.rating input:checked ~ label,
+.rating input:hover ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    color: #ffc107;
+}
+
+/* Card Styles */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: none;
+}
+
+/* Button Styles */
+.btn-submit {
+    background-color: #ff6b6b;
+    border: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    color: white;
+}
+
+.btn-submit:hover {
+    background-color: #e05a5a;
+    color: white;
+}
+
+/* Order Details */
+.order-details {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.order-details h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.order-details p {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+/* Form Elements */
+.form-control {
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .rating label {
+        font-size: 1.5rem;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+    }
+}

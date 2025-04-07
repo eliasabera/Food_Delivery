@@ -1,195 +1,198 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #fdf1db;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fdf1db;
+  background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
 }
 
 /* Header Styles */
 .bg-orange {
-    background-color: #ff6600;
+  background-color: #ff6600;
 }
 
 /* Card Styles */
 .card {
-    border: none;
-    border-radius: 10px;
-    transition: transform 0.2s;
-    margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  transition: transform 0.2s;
+  margin-bottom: 20px;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .card-img-top {
-    border-radius: 10px 10px 0 0;
-    width: 100%;
-    height: auto;
+  border-radius: 10px 10px 0 0;
+  width: 100%;
+  height: auto;
 }
 
 .card-body {
-    padding: 20px;
+  padding: 20px;
 }
 
 .card-title {
-    font-size: 1.5rem;
-    color: #333;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .card-text {
-    font-size: 1rem;
-    color: #666;
+  font-size: 1rem;
+  color: #666;
 }
 
 .price {
-    color: #ff6600;
-    font-weight: bold;
+  color: #ff6600;
+  font-weight: bold;
 }
 
 .restaurant {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 10px;
 }
 
 /* Button Styles */
 .btn {
-    font-size: 1rem;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary {
-    background-color: #ff6600;
-    color: white;
+  background-color: #ff6600;
+  color: white;
 }
 
 .btn-primary:hover {
-    background-color: #e65c00;
+  background-color: #e65c00;
 }
 
 .btn-orange {
-    background-color: #ff6600;
-    color: white;
+  background-color: #ff6600;
+  color: white;
 }
 
 .btn-orange:hover {
-    background-color: #e65c00;
+  background-color: #e65c00;
 }
 
 .btn-secondary {
-    background-color: #6c757d;
-    color: white;
+  background-color: #6c757d;
+  color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #5a6268;
+  background-color: #5a6268;
 }
 
 .btn-success {
-    background-color: #28a745;
-    color: white;
+  background-color: #28a745;
+  color: white;
 }
 
 .btn-success:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 /* Table Styles */
 .table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.table th, .table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ccc;
+.table th,
+.table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ccc;
 }
 
 .table th {
-    background-color: #ff6600;
-    color: white;
+  background-color: #ff6600;
+  color: white;
 }
 
 /* Cart Total Styles */
 #cart-total {
-    color: #ff6600;
-    font-weight: bold;
+  color: #ff6600;
+  font-weight: bold;
 }
 
 /* Checkout Button Styles */
 #checkout-btn {
-    font-size: 1.2rem;
-    padding: 12px 24px;
+  font-size: 1.2rem;
+  padding: 12px 24px;
 }
 
 /* Pagination Styles */
 .pagination .page-item .page-link {
-    color: #ff6600;
+  color: #ff6600;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #ff6600;
-    border-color: #ff6600;
-    color: white;
+  background-color: #ff6600;
+  border-color: #ff6600;
+  color: white;
 }
-
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .card {
-        margin-bottom: 15px;
-    }
+  .card {
+    margin-bottom: 15px;
+  }
 
-    .card-title {
-        font-size: 1.2rem;
-    }
+  .card-title {
+    font-size: 1.2rem;
+  }
 
-    .card-text {
-        font-size: 0.9rem;
-    }
+  .card-text {
+    font-size: 0.9rem;
+  }
 
-    .btn {
-        font-size: 0.9rem;
-        padding: 8px 16px;
-    }
+  .btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
 
-    .table th, .table td {
-        padding: 8px;
-    }
+  .table th,
+  .table td {
+    padding: 8px;
+  }
 
-    #checkout-btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-    }
+  #checkout-btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
 }
 
 @media (max-width: 576px) {
-    .card-title {
-        font-size: 1rem;
-    }
+  .card-title {
+    font-size: 1rem;
+  }
 
-    .card-text {
-        font-size: 0.8rem;
-    }
+  .card-text {
+    font-size: 0.8rem;
+  }
 
-    .btn {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-    }
+  .btn {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
 
-    .table th, .table td {
-        padding: 6px;
-    }
+  .table th,
+  .table td {
+    padding: 6px;
+  }
 
-    #checkout-btn {
-        font-size: 0.9rem;
-        padding: 8px 16px;
-    }
+  #checkout-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
 }

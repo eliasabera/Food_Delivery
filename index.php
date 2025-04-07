@@ -23,7 +23,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <!-- Header -->
@@ -39,6 +39,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
                 <ul class="navbar-nav d-flex gap-3">
                     <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="pages/restaurants.php" class="nav-link">Restaurants</a></li>
+                    <li class="nav-item"><a href="php/order_history.php" class="nav-link">History</a></li>
                     <li class="nav-item">
                         <a href="php/logout.php" class="btn btn-orange">Logout</a>
                     </li>

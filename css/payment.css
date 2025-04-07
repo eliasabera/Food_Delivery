@@ -1,261 +1,207 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-* {
+/* ================ */
+/* GENERAL STYLES */
+/* ================ */
+body {
     font-family: 'Poppins', sans-serif;
+    background-color: #fdf1db;
+    background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+    color: #333;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #5a2d12;
-    background-image: url('https://www.transparenttextures.com/patterns/basket-weave.png');
-    color: white;
-    text-align: center;
-    padding: 20px;
 }
 
 .container {
     max-width: 1200px;
-    margin: auto;
+    margin: 0 auto;
     padding: 20px;
 }
 
-/* Header */
+/* ================ */
+/* HEADER STYLES */
+/* ================ */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
+    padding: 15px 0;
+    margin-bottom: 30px;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
-    background-color: #ff6600;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 50%;
-}
-
-nav {
-    display: flex;
-    gap: 20px;
+    color: #6d4b34;
 }
 
 nav a {
-    color: white;
     text-decoration: none;
-    font-size: 18px;
+    color: #6d4b34;
+    margin-left: 20px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #ff6600;
 }
 
 .logout-btn {
     background-color: #ff6600;
+    color: white !important;
     padding: 8px 15px;
-    border-radius: 20px;
+    border-radius: 5px;
 }
 
+.logout-btn:hover {
+    background-color: #e65c00;
+    color: white;
+}
+
+/* ================ */
+/* PAYMENT SECTION */
+/* ================ */
 .title {
-    background-color: #ff6600;
-    display: inline-block;
-    padding: 10px 30px;
-    border-radius: 30px;
-    font-size: 1.8rem;
-    margin-top: 20px;
+    text-align: center;
+    color: #6d4b34;
+    margin-bottom: 30px;
+    font-weight: 600;
 }
 
-/* Payment Section */
 .payment-section {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    gap: 20px;
+    gap: 30px;
+    margin-bottom: 30px;
 }
 
-/* Payment Box */
-.payment-box {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
+.payment-box, .amount-box {
+    background-color: white;
+    padding: 25px;
     border-radius: 10px;
-    width: 55%;
-    text-align: left;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    flex: 1;
 }
 
-.payment-box h3 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-    font-style: italic;
+.payment-box h3, .amount-box h3 {
+    color: #6d4b34;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
 
 .payment-icons {
     display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .payment-icons img {
-    width: 60px;
-    height: 60px;
-    border-radius: 5px;
+    height: 40px;
+    width: auto;
 }
 
 label {
-    font-size: 1.1rem;
     display: block;
-    margin: 10px 0 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 input[type="text"] {
     width: 100%;
     padding: 10px;
-    font-size: 1rem;
-    border: none;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: white;
-    color: black;
 }
 
 .save-account {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-}
-
-.save-account input {
-    margin-right: 10px;
-}
-
-/* Amount Box */
-.amount-box {
-    background-color: #ff6600;
-    padding: 20px;
-    border-radius: 10px;
-    width: 35%;
-    text-align: center;
-}
-
-.amount-box h3 {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .amount-box p {
-    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
 .amount-box span {
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ff6600;
 }
 
-/* Pay Button */
-.pay-btn {
-    background-color: #ff6600;
-    padding: 12px 25px;
-    font-size: 1.2rem;
-    border-radius: 20px;
-    margin-top: 30px;
-    border: none;
-    cursor: pointer;
-}
 .food-items {
     margin-top: 20px;
 }
 
 .food-items h4 {
-    font-size: 1.2rem;
     margin-bottom: 10px;
+    color: #6d4b34;
 }
 
 .food-items ul {
     list-style-type: none;
-    padding: 0;
+    padding-left: 0;
 }
 
-.food-items ul li {
-    font-size: 1rem;
-    margin-bottom: 5px;
+.food-items li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* ================ */
+/* PAY BUTTON */
+/* ================ */
+.pay-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pay-btn:hover {
+    background-color: #e65c00;
+}
+
+/* ================ */
+/* MODAL STYLES */
+/* ================ */
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-header {
+    background-color: #6d4b34;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6d4b34;
+    border: none;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #5a3c2a;
+}
+
+/* ================ */
+/* RESPONSIVE STYLES */
+/* ================ */
+@media (max-width: 768px) {
     .payment-section {
         flex-direction: column;
-        align-items: center;
     }
-
-    .payment-box,
-    .amount-box {
-        width: 90%;
-        text-align: center;
-    }
-
-    .payment-box {
-        padding: 15px;
-    }
-
-    .payment-icons {
-        justify-content: center;
-    }
-
-    .payment-box label {
-        text-align: left;
-    }
-}
-
-@media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .title {
-        font-size: 1.5rem;
-        padding: 8px 20px;
-    }
-
-    .payment-box h3 {
-        font-size: 1.2rem;
-    }
-
-    .payment-icons img {
-        width: 50px;
-        height: 50px;
-    }
-
-    .amount-box {
-        padding: 15px;
-    }
-
-    .pay-btn {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .logo {
-        font-size: 1.2rem;
-        padding: 8px 15px;
-    }
-
-    .title {
-        font-size: 1.3rem;
-    }
-
-    .payment-icons img {
-        width: 45px;
-        height: 45px;
-    }
-
-    input[type="text"] {
-        font-size: 0.9rem;
-    }
-
-    .pay-btn {
-        font-size: 1rem;
-        padding: 8px 18px;
+    
+    .payment-box, .amount-box {
+        width: 100%;
     }
 }

@@ -3,121 +3,91 @@ session_start();
 
 // Redirect to login page if the user is not logged in
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
-    header("Location: ../php/login.php"); // Redirect to the login page
+    header("Location: ../php/login.php");
     exit();
 }
 
-// Database connection
-$servername = "localhost";
-$username = "root";       // Default XAMPP username
-$password = "";           // Default XAMPP password (empty)
-$dbname = "food_delivery"; // Replace with your database name
+// Handle AJAX requests first (before any HTML output)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
+    header('Content-Type: application/json');
+    
+    // Initialize cart if not exists
+    $_SESSION['cart'] = $_SESSION['cart'] ?? [];
+    
+    $response = ['success' => false];
+    $item_name = $_POST['item_name'] ?? '';
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Handle Add to Cart Logic
-if (isset($_POST['add_to_cart'])) {
-    $item = [
-        'food_id' => $_POST['food_id'],
-        'name' => $_POST['name'],
-        'description' => $_POST['description'],
-        'price' => $_POST['price'],
-        'image_url' => $_POST['image_url'], // Ensure this is the correct path
-        'quantity' => 1 // Default quantity
-    ];
-
-    // Initialize the cart if it doesn't exist
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
-
-    // Check if the item already exists in the cart
-    $itemExists = false;
-    foreach ($_SESSION['cart'] as $key => $cartItem) {
-        if ($cartItem['food_id'] === $item['food_id']) {
-            // Increase the quantity if the item already exists
-            $_SESSION['cart'][$key]['quantity'] += 1;
-            $itemExists = true;
-            break;
-        }
-    }
-
-    // If the item does not exist, add it to the cart
-    if (!$itemExists) {
-        $_SESSION['cart'][] = $item;
-    }
-
-    // Redirect back to the previous page (e.g., restaurant menu)
-    header("Location: " . $_SERVER['HTTP_REFERER']);
-    exit();
-}
-
-// Handle Remove Item Logic
-if (isset($_POST['remove_item'])) {
-    $item_name = $_POST['item_name'];
-    foreach ($_SESSION['cart'] as $key => $item) {
+    // Find item in cart efficiently
+    $item_index = null;
+    foreach ($_SESSION['cart'] as $index => $item) {
         if ($item['name'] === $item_name) {
-            // Decrease quantity by 1
-            $_SESSION['cart'][$key]['quantity'] -= 1;
+            $item_index = $index;
+            break; // Exit loop early when found
+        }
+    }
 
-            // If quantity reaches 0, remove the item from the cart
-            if ($_SESSION['cart'][$key]['quantity'] <= 0) {
-                unset($_SESSION['cart'][$key]);
+    switch ($_POST['ajax_action']) {
+        case 'remove_item':
+            if ($item_index !== null) {
+                $_SESSION['cart'][$item_index]['quantity'] -= 1;
+                
+                if ($_SESSION['cart'][$item_index]['quantity'] <= 0) {
+                    unset($_SESSION['cart'][$item_index]);
+                }
+                
+                $response['success'] = true;
             }
-
-            // Reset array keys to avoid issues
-            $_SESSION['cart'] = array_values($_SESSION['cart']);
             break;
-        }
+            
+        case 'update_quantity':
+            $new_quantity = intval($_POST['quantity'] ?? 0);
+            
+            if ($item_index !== null) {
+                if ($new_quantity > 0) {
+                    $_SESSION['cart'][$item_index]['quantity'] = $new_quantity;
+                    $response['success'] = true;
+                } else {
+                    unset($_SESSION['cart'][$item_index]);
+                    $response['success'] = true;
+                    $response['removed'] = true;
+                }
+            }
+            break;
     }
-    // Redirect back to the cart page to refresh the display
-    header("Location: cart.php");
+    
+    // Reindex array after modifications
+    $_SESSION['cart'] = array_values($_SESSION['cart']);
+    
+    // Calculate totals efficiently
+    $totals = calculateCartTotals($_SESSION['cart']);
+    
+    $response = array_merge($response, $totals);
+    echo json_encode($response);
     exit();
 }
 
-// Handle Update Quantity Logic
-if (isset($_POST['update_quantity'])) {
-    $item_name = $_POST['item_name'];
-    $new_quantity = intval($_POST['quantity']);
-
-    if ($new_quantity > 0) {
-        foreach ($_SESSION['cart'] as $key => $item) {
-            if ($item['name'] === $item_name) {
-                $_SESSION['cart'][$key]['quantity'] = $new_quantity;
-                break;
-            }
-        }
-    } else {
-        // If quantity is 0 or less, remove the item
-        foreach ($_SESSION['cart'] as $key => $item) {
-            if ($item['name'] === $item_name) {
-                unset($_SESSION['cart'][$key]);
-                $_SESSION['cart'] = array_values($_SESSION['cart']);
-                break;
-            }
-        }
+// Function to calculate cart totals
+function calculateCartTotals($cart_items) {
+    $total_amount = 0;
+    $total_quantity = 0;
+    
+    foreach ($cart_items as $item) {
+        $total_amount += $item['price'] * $item['quantity'];
+        $total_quantity += $item['quantity'];
     }
-    // Redirect back to the cart page to refresh the display
-    header("Location: cart.php");
-    exit();
+    
+    return [
+        'total_amount' => $total_amount,
+        'total_quantity' => $total_quantity,
+        'cart_count' => count($cart_items)
+    ];
 }
 
-// Fetch cart items from the session
-$cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
-
-// Calculate total amount and total quantity
-$total_amount = 0;
-$total_quantity = 0;
-foreach ($cart_items as $item) {
-    $total_amount += $item['price'] * $item['quantity'];
-    $total_quantity += $item['quantity'];
-}
+// Get cart items and calculate totals for initial page load
+$cart_items = $_SESSION['cart'] ?? [];
+$totals = calculateCartTotals($cart_items);
+$total_amount = $totals['total_amount'];
+$total_quantity = $totals['total_quantity'];
 ?>
 
 <!DOCTYPE html>
@@ -130,6 +100,10 @@ foreach ($cart_items as $item) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/cart.css">
 </head>
@@ -137,24 +111,48 @@ foreach ($cart_items as $item) {
 <div class="container">
     <h1 class="text-center my-4">Your Cart</h1>
 
+    <!-- Cart Summary -->
+    <div class="cart-summary mb-4 p-3 bg-light rounded">
+        <div class="d-flex justify-content-between">
+            <div>
+                <span class="fw-bold">Total Items:</span>
+                <span id="total-quantity"><?= $total_quantity ?></span>
+            </div>
+            <div>
+                <span class="fw-bold">Total Amount:</span>
+                <span id="total-amount"><?= number_format($total_amount, 2) ?></span> Birr
+            </div>
+        </div>
+    </div>
+
     <!-- Display Cart Items -->
     <?php if (!empty($cart_items)): ?>
         <div id="cart-items" class="row g-4">
             <?php foreach ($cart_items as $item): ?>
-                <div class="col-md-4">
+                <div class="col-md-4" id="item-<?= md5($item['name']) ?>">
                     <div class="card cart-item">
-                        <!-- Update the image source to point to the correct path -->
-                        <img src="../images/<?= htmlspecialchars(basename($item['image_url']), ENT_QUOTES, 'UTF-8') ?>" class="card-img-top" alt="Product Image">
+                        <img src="../images/<?= htmlspecialchars(basename($item['image_url']), ENT_QUOTES, 'UTF-8') ?>" 
+                             class="card-img-top" 
+                             alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>"
+                             loading="lazy"> <!-- Lazy loading for images -->
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?></h5>
                             <p class="card-text"><?= htmlspecialchars($item['description'], ENT_QUOTES, 'UTF-8') ?></p>
                             <p class="price">Price: <?= htmlspecialchars($item['price'], ENT_QUOTES, 'UTF-8') ?> Birr</p>
-                            <form action="cart.php" method="POST" class="d-flex justify-content-between">
-                                <input type="hidden" name="item_name" value="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>">
-                                <button type="submit" name="remove_item" class="btn btn-orange">Remove</button>
-                                <input type="number" name="quantity" class="form-control w-25" value="<?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8') ?>" min="1">
-                                <button type="submit" name="update_quantity" class="btn btn-primary">Update</button>
-                            </form>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button class="btn btn-danger remove-item" 
+                                    data-item-name="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                                <input type="number" class="form-control item-quantity" 
+                                    value="<?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8') ?>" 
+                                    min="1"
+                                    data-item-name="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                <button class="btn btn-primary update-quantity"
+                                    data-item-name="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -169,29 +167,196 @@ foreach ($cart_items as $item) {
         <a href="restaurants.php" class="btn btn-outline-primary btn-lg">
             <i class="bi bi-arrow-left"></i> Back to Restaurants
         </a>
-        <form action="payment.php" method="POST">
-            <input type="hidden" name="total_amount" value="<?= $total_amount ?>">
-            <input type="hidden" name="total_quantity" value="<?= $total_quantity ?>">
-            <?php foreach ($cart_items as $item): ?>
-                <input type="hidden" name="food_names[]" value="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>">
-                <input type="hidden" name="food_quantities[]" value="<?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8') ?>">
-                <input type="hidden" name="food_prices[]" value="<?= htmlspecialchars($item['price'], ENT_QUOTES, 'UTF-8') ?>">
-            <?php endforeach; ?>
-            <div class="form-group mb-3">
-                <label for="customer_location">Current Location</label>
-                <input type="text" name="customer_location" id="customer_location" class="form-control" placeholder="Enter your current location" required>
-            </div>
-            <button type="submit" name="proceed_to_payment" class="btn btn-success">Proceed to Payment</button>
-        </form>
+        <?php if (!empty($cart_items)): ?>
+            <form action="payment.php" method="POST" id="payment-form">
+                <input type="hidden" name="total_amount" value="<?= $total_amount ?>">
+                <input type="hidden" name="total_quantity" value="<?= $total_quantity ?>">
+                <?php foreach ($cart_items as $item): ?>
+                    <input type="hidden" name="food_names[]" value="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="food_quantities[]" value="<?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="food_prices[]" value="<?= htmlspecialchars($item['price'], ENT_QUOTES, 'UTF-8') ?>">
+                <?php endforeach; ?>
+                <div class="form-group mb-3">
+                    <label for="customer_location">Current Location</label>
+                    <input type="text" name="customer_location" id="customer_location" 
+                           class="form-control" placeholder="Enter your current location" required>
+                </div>
+                <button type="submit" name="proceed_to_payment" class="btn btn-success btn-lg">
+                    <i class="fas fa-credit-card"></i> Proceed to Payment
+                </button>
+            </form>
+        <?php endif; ?>
     </div>
 </div>
 
-<!-- Bootstrap JS -->
+<!-- JavaScript Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Debounce function to limit rapid requests
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            const context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(context, args);
+            }, wait);
+        };
+    }
+
+    // Update cart display after changes
+    function updateCartDisplay(data, itemId = null) {
+        // Update totals
+        document.getElementById('total-quantity').textContent = data.total_quantity;
+        document.getElementById('total-amount').textContent = data.total_amount.toFixed(2);
+        
+        // Remove item if needed
+        if (data.removed && itemId) {
+            const itemElement = document.getElementById(itemId);
+            if (itemElement) {
+                itemElement.style.opacity = '0';
+                setTimeout(() => {
+                    itemElement.remove();
+                    checkEmptyCart(data.cart_count);
+                }, 300);
+            }
+        }
+        
+        // Show success notification
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+
+    // Check if cart is empty
+    function checkEmptyCart(count) {
+        if (count === 0) {
+            const cartItems = document.getElementById('cart-items');
+            if (cartItems) {
+                cartItems.innerHTML = '<p class="text-center">Your cart is empty.</p>';
+            }
+            const paymentForm = document.getElementById('payment-form');
+            if (paymentForm) {
+                paymentForm.remove();
+            }
+        }
+    }
+
+    // Show error message
+    function showError(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: message
+        });
+    }
+
+    // Handle remove item
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-item')) {
+            const button = e.target.closest('.remove-item');
+            const itemName = button.dataset.itemName;
+            const itemId = 'item-' + md5(itemName);
+            
+            // Visual feedback
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
+            
+            // Send AJAX request
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    ajax_action: 'remove_item',
+                    item_name: itemName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateCartDisplay(data, itemId);
+                } else {
+                    showError('Failed to remove item');
+                }
+            })
+            .catch(() => {
+                showError('Network error occurred');
+            })
+            .finally(() => {
+                button.innerHTML = '<i class="fas fa-trash"></i> Remove';
+                button.disabled = false;
+            });
+        }
+    });
+
+    // Handle update quantity with debouncing
+    const debouncedUpdate = debounce(function(button) {
+        const itemName = button.dataset.itemName;
+        const quantityInput = button.previousElementSibling;
+        const newQuantity = parseInt(quantityInput.value);
+        
+        if (isNaN(newQuantity) || newQuantity < 1) {
+            showError('Please enter a valid quantity');
+            return;
+        }
+        
+        // Visual feedback
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        button.disabled = true;
+        
+        // Send AJAX request
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                ajax_action: 'update_quantity',
+                item_name: itemName,
+                quantity: newQuantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateCartDisplay(data, 'item-' + md5(itemName));
+            } else {
+                showError('Failed to update quantity');
+            }
+        })
+        .catch(() => {
+            showError('Network error occurred');
+        })
+        .finally(() => {
+            button.innerHTML = '<i class="fas fa-sync-alt"></i>';
+            button.disabled = false;
+        });
+    }, 300);
+
+    // Attach event listener for quantity updates
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.update-quantity')) {
+            debouncedUpdate(e.target.closest('.update-quantity'));
+        }
+    });
+
+    // Simple MD5 function (replace with a real implementation if needed)
+    function md5(string) {
+        return string.split('').reduce((acc, char) => {
+            return acc + char.charCodeAt(0).toString(16);
+        }, '');
+    }
+});
+</script>
 </body>
 </html>
-
-<?php
-// Close the database connection
-$conn->close();
-?>

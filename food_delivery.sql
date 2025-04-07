@@ -19,6 +19,7 @@ CREATE TABLE Restaurant (
     location VARCHAR(255) NOT NULL,
     image_url VARCHAR(255),
     password VARCHAR(255) NOT NULL,
+    avg_rating DECIMAL(3,2) DEFAULT 0.00,
     reset_token VARCHAR(100), -- For password reset
     reset_token_expires DATETIME, -- Token expiration time
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -57,6 +58,7 @@ CREATE TABLE DeliveryPerson (
     phone_number VARCHAR(15) NOT NULL,
     address VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    avg_rating DECIMAL(3,2) DEFAULT 0.00,
     reset_token VARCHAR(100), -- For password reset
     reset_token_expires DATETIME, -- Token expiration time
     status ENUM('available', 'busy') DEFAULT 'available', -- Track availability
@@ -109,3 +111,20 @@ CREATE TABLE Notification (
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- Add a table for ratings and feedback
+CREATE TABLE Ratings (
+    rating_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    restaurant_id INT NOT NULL,
+    delivery_person_id INT NOT NULL,
+    food_rating TINYINT NOT NULL CHECK (food_rating BETWEEN 1 AND 5),
+    delivery_rating TINYINT NOT NULL CHECK (delivery_rating BETWEEN 1 AND 5),
+    feedback_text TEXT,
+    rating_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurant(restaurant_id),
+    FOREIGN KEY (delivery_person_id) REFERENCES DeliveryPerson(delivery_person_id)
+);
+
