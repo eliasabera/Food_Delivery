@@ -76,25 +76,25 @@ $conn->close();
                         <a href="home.php" class="nav-link active">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="php/manage-customers.php" class="nav-link">Manage Customers</a>
+                        <a href="php/admin/manage-customers.php" class="nav-link">Manage Customers</a>
                     </li>
                     <li class="nav-item">
-                        <a href="php/manage-restaurants.php" class="nav-link">Manage Restaurants</a>
+                        <a href="php/admin/manage-restaurants.php" class="nav-link">Manage Restaurants</a>
                     </li>
                     <li class="nav-item">
-                        <a href="forms/manage-delivery-person.php" class="nav-link">Manage Delivery Persons</a>
+                        <a href="php/admin/manage-delivery-person.php" class="nav-link">Manage Delivery Persons</a>
                     </li>
                     <li class="nav-item">
-                        <a href="forms/add-food-item.php" class="nav-link">Add Food Item</a>
+                        <a href="php/admin/add-food-item.php" class="nav-link">Add Food Item</a>
                     </li>
                     <li class="nav-item">
-                        <a href="forms/add-delivery-person.php" class="nav-link">Add Delivery Person</a>
+                        <a href="php/admin/add-delivery-person.php" class="nav-link">Add Delivery Person</a>
                     </li>
                     <li class="nav-item">
-                        <a href="forms/add-restaurant.php" class="nav-link">Add Restaurant</a>
+                        <a href="php/admin/add_restaurant.php" class="nav-link">Add Restaurant</a>
                     </li>
                     <li class="nav-item">
-                        <a href="forms/track_orders.php" class="nav-link">Track Orders</a>
+                        <a href="php/admin/track_orders.php" class="nav-link">Track Orders</a>
                     </li>
                 </ul>
             </aside>
@@ -142,6 +142,21 @@ $conn->close();
                         </div>
                     </div>
                 </div>
+                <!-- Add this in your main content section after the statistics boxes -->
+<!-- Add this in your main content section after the statistics boxes -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4 class="card-title">System Report</h4>
+                <p class="card-text">Generate a comprehensive report of all system information.</p>
+                <a href="php/generate_report.php" class="btn btn-orange">
+                    <i class="bi bi-file-earmark-text"></i> Generate System Report
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
             </main>
         </div>
     </div>

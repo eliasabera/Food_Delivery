@@ -1,67 +1,145 @@
 /* General Styles */
+:root {
+  --primary-color: #ff6b6b;
+  --secondary-color: #4ecdc4;
+  --orange-color: #ff8c42;
+  --header-orange: #ff6600;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #fdf1db;
+  font-family: Arial, sans-serif;
+  background-color: #fdf1db;
 }
 
 /* Header Styles */
+.delivery-header {
+  background-color: var(--header-orange);
+}
+
 .bg-orange {
-    background-color: #ff6600;
+  background-color: #ff6600;
 }
 
 /* Card Styles */
 .card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-    background-color: #ff6600;
-    color: white;
-    padding: 15px;
-    border-radius: 10px 10px 0 0;
+  background-color: #ff6600;
+  color: white;
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+}
+
+.delivery-person-card {
+  border-left: 4px solid var(--orange-color);
+}
+
+.order-card {
+  transition: transform 0.2s;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Badges */
+.status-badge {
+  font-size: 0.9rem;
+  padding: 0.5em 0.75em;
+  border-radius: 50px;
+}
+
+.status-available {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-busy {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Order Status */
+.order-status {
+  font-weight: 600;
+}
+
+.order-status-pending {
+  color: #ffc107;
+}
+
+.order-status-ready {
+  color: #17a2b8;
+}
+
+.order-status-delivering {
+  color: #007bff;
+}
+
+.order-status-delivered {
+  color: #28a745;
 }
 
 /* Table Styles */
 .table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.table th, .table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ccc;
+.table th,
+.table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ccc;
 }
 
 .table th {
-    background-color: #ff6600;
-    color: white;
+  background-color: #ff6600;
+  color: white;
 }
 
 /* Badge Styles */
 .badge {
-    font-size: 0.9rem;
-    padding: 6px 12px;
-    border-radius: 20px;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 20px;
 }
 
 .bg-warning {
-    background-color: #ffc107;
+  background-color: #ffc107;
 }
 
 .bg-success {
-    background-color: #28a745;
+  background-color: #28a745;
 }
 
 /* Button Styles */
 .btn-light {
-    background-color: white;
-    border: none;
-    color: #ff6600;
+  background-color: white;
+  border: none;
+  color: #ff6600;
 }
 
 .btn-light:hover {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
+}
+
+/* Map Container */
+.map-container {
+  height: 300px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .delivery-person-card {
+    margin-bottom: 1.5rem;
+  }
 }
