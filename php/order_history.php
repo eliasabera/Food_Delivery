@@ -3,7 +3,7 @@ session_start();
 
 // Check if user is logged in as customer
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
-    header("Location: ../auth/login.php");
+    header("Location: login.php");
     exit();
 }
 
@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
                         </div>
 
                         <div class="order-footer">
-                            <a href="order_details.php?order_id=<?= $order['order_id'] ?>" class="btn btn-view-details">
+                            <a href="order_status.php?order_id=<?= $order['order_id'] ?>" class="btn btn-view-details">
                                 <i class="fas fa-eye"></i> View Details
                             </a>
                             <?php if ($order['status'] === 'Delivered'): ?>

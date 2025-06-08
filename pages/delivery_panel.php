@@ -33,7 +33,17 @@ try {
     die("Database error: " . $e->getMessage());
 }
 
-// Handle status update
+try {
+    $notification_stmt = $conn->prepare("SELECT * FROM notifications 
+                                       WHERE user_id = ? AND user_type = 'delivery' AND is_read = FALSE
+                                       ORDER BY created_at DESC LIMIT 5");
+    $notification_stmt->execute([$_SESSION['user_id']]);
+    $unread_notifications = $notification_stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Don't die if notifications fail, just log it
+    error_log("Notification error: " . $e->getMessage());
+    $unread_notifications = [];
+}
 // Handle status update - Modified version
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
     $new_status = $_POST['status'];
@@ -175,15 +185,90 @@ if (isset($_SESSION['status_message'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/delivery.css">
+    <style>
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .notification-dropdown {
+            max-height: 400px;
+            overflow-y: auto;
+            width: 300px;
+        }
+        .notification-item {
+            border-left: 3px solid #0d6efd;
+            padding-left: 10px;
+            margin-bottom: 5px;
+            white-space: normal;
+        }
+        .notification-item.unread {
+            background-color: #f8f9fa;
+            border-left: 3px solid #ffc107;
+        }
+        .notification-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .notification-container {
+            position: relative;
+            margin-right: 15px;
+        }
+    </style>
 </head>
 <body class="bg-light">
-    <header class="delivery-header text-white p-3">
+<header class="delivery-header text-white p-3">
         <div class="container bg-[#ff6600]">
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="m-0"><i class="fas fa-motorcycle me-2"></i>Delivery Dashboard</h1>
-                <a href="../php/logout.php" class="btn btn-light">
-                    <i class="fas fa-sign-out-alt me-1"></i> Logout
-                </a>
+                <div class="d-flex align-items-center">
+                    <!-- ========== NEW: Notification Bell ========== -->
+                    <div class="notification-container">
+                        <div class="dropdown">
+                            <a class="btn btn-light position-relative" href="#" role="button" 
+                               id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bell"></i>
+                                <?php if (count($unread_notifications) > 0): ?>
+                                    <span class="notification-badge"><?= count($unread_notifications) ?></span>
+                                <?php endif; ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end notification-dropdown" 
+                                aria-labelledby="notificationDropdown">
+                                <li><h6 class="dropdown-header">Notifications</h6></li>
+                                <?php if (count($unread_notifications) > 0): ?>
+                                    <?php foreach ($unread_notifications as $notification): ?>
+                                        <li>
+                                            <a class="dropdown-item notification-item unread" 
+                                               href="../php/mark_notification_read.php?id=<?= $notification['id'] ?>&redirect=delivery_panel.php">
+                                                <div><?= htmlspecialchars($notification['message']) ?></div>
+                                                <small class="notification-time">
+                                                    <?= date('M j, g:i a', strtotime($notification['created_at'])) ?>
+                                                </small>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <li><a class="dropdown-item text-muted" href="..">No new notifications</a></li>
+                                <?php endif; ?>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-center" href="../php/delivery_notifications.php">View All</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- ========== END NEW ========== -->
+                    <a href="../php/logout.php" class="btn btn-light">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </a>
+                </div>
             </div>
         </div>
     </header>

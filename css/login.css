@@ -9,7 +9,7 @@
 
 body {
   background-color: #fdf1db;
-  background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png"); /* Textured background */
+  background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,37 +23,36 @@ body {
   background: transparent;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; /* Changed from flex-start to center */
   padding: 2rem;
-  text-align: left;
+  text-align: center; /* Added to center all text */
   position: relative;
 }
 
 h3 {
-  font-size: 3vw; /* Responsive font size */
+  font-size: 3vw;
   font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 2rem;
   width: 100%;
-  text-align: center;
 }
 
 .form {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 2fr; /* Two columns: labels and inputs */
-  grid-gap: 1.5rem; /* Space between columns and rows */
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 1.5rem;
 }
 
 .form-group {
-  display: contents; /* To make both label and input take respective places */
+  display: contents;
 }
 
 label {
   font-size: 1.5rem;
   color: #8b5e34;
   text-align: right;
-  padding-right: 1rem; /* Aligns label close to the input */
+  padding-right: 1rem;
 }
 
 input {
@@ -71,11 +70,11 @@ input:focus {
 }
 
 button {
-  grid-column: span 2; /* Span the button across both columns */
+  grid-column: span 2;
   padding: 1rem 3rem;
   background-color: #ff6600;
   color: white;
-  font-size: 1.5vw; /* Responsive button font size */
+  font-size: 1.5vw;
   text-transform: capitalize;
   border: none;
   border-radius: 2rem;
@@ -88,13 +87,28 @@ button:hover {
   background-color: #e65c00;
 }
 
-p {
-  grid-column: span 2; /* Span the paragraph across both columns */
+.auth-links {
+  grid-column: span 2;
+  width: 100%;
   margin-top: 1rem;
+}
+
+.auth-links p {
+  margin: 0.5rem 0;
   font-size: 1rem;
   color: #8b5e34;
   text-align: center;
-  width: 100%;
+}
+
+.auth-links a {
+  color: #ff6600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+  color: #e65c00;
+  text-decoration: underline;
 }
 
 .wave {
@@ -127,36 +141,36 @@ p {
 
 @media (max-width: 900px) {
   h3 {
-    font-size: 6vw; /* Increase font size for smaller screens */
+    font-size: 6vw;
   }
   .login {
     padding: 1.5rem;
   }
 
   .form {
-    grid-template-columns: 1fr; /* Make it single-column on smaller screens */
-    grid-gap: 1rem; /* Reduce space between fields */
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
   }
 
   label {
     text-align: left;
     padding-right: 0;
-    margin-bottom: 0.5rem; /* Add some margin to the label */
+    margin-bottom: 0.5rem;
   }
 
   input {
-    margin-bottom: 1rem; /* Add space between input fields */
+    margin-bottom: 1rem;
   }
 
   button {
     padding: 1rem 2.5rem;
-    font-size: 2vw; /* Adjust font size for smaller screens */
+    font-size: 2vw;
   }
 }
 
 @media (max-width: 600px) {
   h3 {
-    font-size: 7vw; /* Further increase heading size for very small screens */
+    font-size: 7vw;
   }
 
   .login {
@@ -165,18 +179,18 @@ p {
 
   button {
     padding: 1rem 2rem;
-    font-size: 3vw; /* Adjust button size for very small screens */
+    font-size: 3vw;
   }
 
   .form {
-    grid-gap: 0.8rem; /* Reduce space further on very small screens */
+    grid-gap: 0.8rem;
   }
 
   label {
-    margin-bottom: 0.5rem; /* Ensure proper spacing on very small screens */
+    margin-bottom: 0.5rem;
   }
 
   input {
-    margin-bottom: 1rem; /* Ensure proper spacing on very small screens */
+    margin-bottom: 1rem;
   }
 }

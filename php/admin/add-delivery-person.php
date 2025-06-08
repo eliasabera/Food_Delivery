@@ -84,8 +84,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Manage Delivery Persons</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Link to external CSS file (for custom styles) -->
-    <link rel="stylesheet" href="../css/form.css">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #fdf1db;
+            background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+            font-family: "Poppins", sans-serif;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            border: none;
+        }
+        
+        h2 {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e65c00;
+            border-color: #e65c00;
+        }
+        
+        .form-label {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .form-control:focus {
+            border-color: #ff6600;
+            box-shadow: 0 0 0 0.25rem rgba(255, 102, 0, 0.25);
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+    </style>
 </head>
 <body class="bg-light">
 

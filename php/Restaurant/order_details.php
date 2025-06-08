@@ -25,7 +25,7 @@ $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 // Get order details
 $order_sql = "SELECT o.*, c.username AS customer_name, c.phone_number AS customer_phone,
               r.name AS restaurant_name, dp.username AS delivery_person_name,
-              dp.phone_number AS delivery_phone
+              dp.phone_number AS delivery_phone, c.customer_id
               FROM Orders o
               JOIN Customer c ON o.customer_id = c.customer_id
               JOIN Restaurant r ON o.restaurant_id = r.restaurant_id
@@ -54,7 +54,7 @@ $items_result = $items_stmt->get_result();
 $order_items = $items_result->fetch_all(MYSQLI_ASSOC);
 
 // Define getStatusActions function
-function getStatusActions($order_id, $current_status) {
+function getStatusActions($order_id, $current_status, $conn) {
     $actions = [];
     
     switch ($current_status) {
@@ -63,13 +63,23 @@ function getStatusActions($order_id, $current_status) {
                 'url' => "R_update_order_status.php?id=$order_id&status=Preparing",
                 'class' => 'btn-info',
                 'icon' => 'fa-play',
-                'text' => 'Start Preparing'
+                'text' => 'Start Preparing',
+                'notification' => [
+                    'user_id' => $GLOBALS['order']['customer_id'],
+                    'user_type' => 'customer',
+                    'message' => "Your order #$order_id is now being prepared"
+                ]
             ];
             $actions[] = [
                 'url' => "R_update_order_status.php?id=$order_id&status=Cancelled",
                 'class' => 'btn-danger',
                 'icon' => 'fa-times',
-                'text' => 'Cancel Order'
+                'text' => 'Cancel Order',
+                'notification' => [
+                    'user_id' => $GLOBALS['order']['customer_id'],
+                    'user_type' => 'customer',
+                    'message' => "Your order #$order_id has been cancelled"
+                ]
             ];
             break;
             
@@ -78,7 +88,12 @@ function getStatusActions($order_id, $current_status) {
                 'url' => "R_update_order_status.php?id=$order_id&status=Ready",
                 'class' => 'btn-success',
                 'icon' => 'fa-check',
-                'text' => 'Mark as Ready'
+                'text' => 'Mark as Ready',
+                'notification' => [
+                    'user_id' => $GLOBALS['order']['delivery_person_id'],
+                    'user_type' => 'delivery',
+                    'message' => "Order #$order_id is ready for pickup"
+                ]
             ];
             break;
             
@@ -103,6 +118,8 @@ function getStatusActions($order_id, $current_status) {
     
     return $actions;
 }
+
+$status_actions = getStatusActions($order_id, $order['status'], $conn);
 
 $conn->close();
 ?>
@@ -133,11 +150,11 @@ $conn->close();
                         <h5 class="mb-0">Order Information</h5>
                     </div>
                     <div class="card-body">
-                        <p><strong>Status:</strong> 
-                            <span class="badge bg-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
-                                <?= $order['status'] ?>
-                            </span>
-                        </p>
+                    <p class="text-dark"><strong>Status:</strong> 
+    <span class="badge bg-<?= strtolower(str_replace(' ', '-', $order['status'])) ?> text-dark">
+        <?= $order['status'] ?>
+    </span>
+</p>
                         <p><strong>Order Date:</strong> <?= date('F j, Y \a\t g:i A', strtotime($order['order_date'])) ?></p>
                         <p><strong>Total Amount:</strong> <?= number_format($order['total_price'], 2) ?> Birr</p>
                         <p><strong>Delivery Location:</strong> <?= htmlspecialchars($order['customer_location']) ?></p>
@@ -214,10 +231,7 @@ $conn->close();
             </div>
             <div class="card-body">
                 <div class="btn-group" role="group">
-                    <?php 
-                    $actions = getStatusActions($order_id, $order['status']);
-                    foreach ($actions as $action): 
-                    ?>
+                    <?php foreach ($status_actions as $action): ?>
                         <a href="<?= htmlspecialchars($action['url']) ?>" 
                            class="btn <?= htmlspecialchars($action['class']) ?> me-2"
                            onclick="<?= strpos($action['url'], '#') === 0 ? 'return false;' : 'return confirm(\'Are you sure you want to update this order status?\')' ?>">

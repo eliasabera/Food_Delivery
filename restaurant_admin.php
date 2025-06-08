@@ -19,6 +19,16 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$restaurant_id = $_SESSION['user_id'];
+$notifications_sql = "SELECT * FROM notifications
+                     WHERE user_id = ? AND user_type = 'restaurant' AND is_read = FALSE
+                     ORDER BY created_at DESC LIMIT 5";
+$notifications_stmt = $conn->prepare($notifications_sql);
+$notifications_stmt->bind_param("i", $restaurant_id);
+$notifications_stmt->execute();
+$notifications_result = $notifications_stmt->get_result();
+$unread_notifications = $notifications_result->fetch_all(MYSQLI_ASSOC);
+
 // Fetch restaurant details with average rating
 $restaurant_id = $_SESSION['user_id'];
 $restaurant_sql = "SELECT r.name, r.image_url, 
@@ -79,9 +89,44 @@ if (isset($_GET['new_status'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/restaurant.css">
+    <style>
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .notification-dropdown {
+            max-height: 400px;
+            overflow-y: auto;
+            width: 300px;
+        }
+        .notification-item {
+            border-left: 3px solid #0d6efd;
+            padding-left: 10px;
+            margin-bottom: 5px;
+        }
+        .notification-item.unread {
+            background-color: #f8f9fa;
+            border-left: 3px solid #ffc107;
+        }
+        .notification-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
+    <!-- Header -->
     <!-- Header -->
     <header class="bg-orange text-white p-3 d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
@@ -93,11 +138,43 @@ if (isset($_GET['new_status'])) {
         </div>
             <h1 class="m-0"><?= htmlspecialchars($restaurant['name'], ENT_QUOTES, 'UTF-8') ?> Dashboard</h1>
         </div>
-        <a href="php/logout.php" class="btn btn-light logout-btn">
-            <i class="fas fa-sign-out-alt me-1"></i> Logout
-        </a>
+        <div class="d-flex align-items-center">
+            <!-- ========== NEW: Notification Bell ========== -->
+            <div class="dropdown me-3">
+                <a class="btn btn-light position-relative" href="#" role="button" id="notificationDropdown" 
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                    <?php if (count($unread_notifications) > 0): ?>
+                        <span class="notification-badge"><?= count($unread_notifications) ?></span>
+                    <?php endif; ?>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
+                    <li><h6 class="dropdown-header">Notifications</h6></li>
+                    <?php if (count($unread_notifications) > 0): ?>
+                        <?php foreach ($unread_notifications as $notification): ?>
+                            <li>
+                                <a class="dropdown-item notification-item unread" 
+                                   href="php/Restaurant/mark_notification_read.php?id=<?= $notification['id'] ?>&redirect=restaurant_admin.php">
+                                    <div><?= htmlspecialchars($notification['message'], ENT_QUOTES, 'UTF-8') ?></div>
+                                    <small class="notification-time">
+                                        <?= date('M j, g:i a', strtotime($notification['created_at'])) ?>
+                                    </small>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li><a class="dropdown-item text-muted" href="#">No new notifications</a></li>
+                    <?php endif; ?>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-center" href="php/Restaurant/all_notifications.php">View All</a></li>
+                </ul>
+            </div>
+            <!-- ========== END NEW ========== -->
+            <a href="php/logout.php" class="btn btn-light logout-btn">
+                <i class="fas fa-sign-out-alt me-1"></i> Logout
+            </a>
+        </div>
     </header>
-
     <div class="container mt-4">
         <?php if (isset($message)): ?>
             <div class="alert alert-<?= $message['type'] ?> alert-dismissible fade show">
@@ -340,52 +417,19 @@ if (isset($_GET['new_status'])) {
                                     <td><?= number_format($order['total_price'], 2) ?> Birr</td>
                                     <td><?= $order['delivery_person_name'] ? htmlspecialchars($order['delivery_person_name'], ENT_QUOTES, 'UTF-8') : 'Not assigned' ?></td>
                                     <td>
-                                        <span class="badge bg-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
-                                            <?= htmlspecialchars($order['status'] ?? 'Unknown', ENT_QUOTES, 'UTF-8') ?>
-                                        </span>
+                                    <span class="badge bg-<?= strtolower(str_replace(' ', '-', $order['status'])) ?> text-dark">
+    <?= htmlspecialchars($order['status'] ?? 'Unknown', ENT_QUOTES, 'UTF-8') ?>
+</span>
                                     </td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <?php 
-                                            // Define status actions based on current order status
-                                            $actions = [];
-                                            
-                                            if ($order['status'] === 'Pending') {
-                                                $actions[] = [
-                                                    'url' => "php/Restaurant/R_update_order_status?id=".$order['order_id']."&status=Preparing",
-                                                    'class' => 'btn-info',
-                                                    'icon' => 'fa-play',
-                                                    'text' => 'Start Preparing'
-                                                ];
-                                            } elseif ($order['status'] === 'Preparing') {
-                                                $actions[] = [
-                                                    'url' => "php/Restaurant/R_update_order_status?id=".$order['order_id']."&status=Ready",
-                                                    'class' => 'btn-success',
-                                                    'icon' => 'fa-check',
-                                                    'text' => 'Mark as Ready'
-                                                ];
-                                            }
-                                            
-                                            // Add view details button
-                                            $actions[] = [
-                                                'url' => "php/Restaurant/order_details.php?id=".$order['order_id'],
-                                                'class' => 'btn-primary',
-                                                'icon' => 'fa-eye',
-                                                'text' => 'View Details'
-                                            ];
-                                            
-                                            // Render all action buttons
-                                            foreach ($actions as $action): 
-                                            ?>
-                                                <a href="<?= $action['url'] ?>" 
-                                                class="btn btn-sm <?= $action['class'] ?>"
-                                                title="<?= $action['text'] ?>"
-                                                <?= strpos($action['url'], '#') === 0 ? 'onclick="return false;"' : '' ?>>
-                                                    <i class="fas <?= $action['icon'] ?>"></i>
-                                                </a>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    </td>
+                                 <div class="btn-group" role="group">
+                                    <a href="php/Restaurant/order_details.php?id=<?= $order['order_id'] ?>" 
+                                    class="btn btn-sm btn-primary"
+                                    title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                                </td>
                                 </tr>
                                 <?php endwhile; ?>
                                 <?php else: ?>

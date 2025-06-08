@@ -142,6 +142,21 @@ $conn->close();
                         </div>
                     </div>
                 </div>
+                <!-- Add this in your main content section after the statistics boxes -->
+<!-- Add this in your main content section after the statistics boxes -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4 class="card-title">System Report</h4>
+                <p class="card-text">Generate a comprehensive report of all system information.</p>
+                <a href="php/generate_report.php" class="btn btn-orange">
+                    <i class="bi bi-file-earmark-text"></i> Generate System Report
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
             </main>
         </div>
     </div>

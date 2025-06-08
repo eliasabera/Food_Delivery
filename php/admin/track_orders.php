@@ -67,25 +67,25 @@ $conn->close();
                         <a href="../../admin.php" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./manage-customers.php" class="nav-link">Manage Customers</a>
+                        <a href="manage-customers.php" class="nav-link">Manage Customers</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./php/manage-restaurants.php" class="nav-link">Manage Restaurants</a>
+                        <a href="manage-restaurants.php" class="nav-link">Manage Restaurants</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./manage-delivery-person.php" class="nav-link">Manage Delivery Persons</a>
+                        <a href="manage-delivery-person.php" class="nav-link">Manage Delivery Persons</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./add-food-item.php" class="nav-link">Add Food Item</a>
+                        <a href="add-food-item.php" class="nav-link">Add Food Item</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./add-delivery-person.php" class="nav-link">Add Delivery Person</a>
+                        <a href="add-delivery-person.php" class="nav-link">Add Delivery Person</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./add-restaurant.php" class="nav-link">Add Restaurant</a>
+                        <a href="add_restaurant.php" class="nav-link">Add Restaurant</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./track_orders.php" class="nav-link active">Track Orders</a>
+                        <a href="track_orders.php" class="nav-link active">Track Orders</a>
                     </li>
                 </ul>
             </aside>

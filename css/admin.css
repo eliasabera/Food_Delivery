@@ -71,3 +71,29 @@ body {
         max-width: 100%;
     }
 }
+/* Add to admin.css */
+.btn-orange {
+    background-color: #FF6B00;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.btn-orange:hover {
+    background-color: #E05D00;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}

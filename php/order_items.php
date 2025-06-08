@@ -103,14 +103,14 @@ try {
     $stmt->execute([':order_id' => $order_id]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Get Order Items
+    // Get Order Items with proper image handling
     $stmt = $conn->prepare("
         SELECT 
             oi.order_item_id,
             fi.name, 
             fi.description, 
             oi.quantity,
-            CONCAT('../images/food/', fi.image_url) AS image_url
+            fi.image_url
         FROM OrderItem oi
         INNER JOIN FoodItem fi ON oi.food_id = fi.food_id
         WHERE oi.order_id = :order_id
@@ -163,6 +163,11 @@ try {
             background-color: #d4edda;
             color: #155724;
         }
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -211,11 +216,10 @@ try {
                         <div class="card item-card mb-3">
                             <div class="card-body">
                                 <div class="d-flex">
-                                    <?php if (!empty($item['image_url'])): ?>
-                                        <img src="<?= htmlspecialchars($item['image_url']) ?>" 
-                                             alt="<?= htmlspecialchars($item['name']) ?>" 
-                                             class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: cover;">
-                                    <?php endif; ?>
+                                    <img src="../images/<?= htmlspecialchars(basename($item['image_url'])) ?>" 
+                                         class="img-fluid rounded-start cart-item-img me-3" 
+                                         alt="<?= htmlspecialchars($item['name']) ?>"
+                                         onerror="this.onerror=null;this.src='../images/default-food.jpg'">
                                     
                                     <div>
                                         <h5><?= htmlspecialchars($item['name']) ?></h5>
